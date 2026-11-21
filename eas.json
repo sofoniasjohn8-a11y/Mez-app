@@ -5,39 +5,24 @@
     "requireCommit": false
   },
   "build": {
-    "base": {
+    "preview": {
+      "distribution": "internal",
+      "android": {
+        "buildType": "apk"
+      },
       "node": "22.0.0",
       "cache": {
         "disabled": true
       },
-      "environment": {
+      "env": {
         "NPM_CONFIG_LEGACY_PEER_DEPS": "true"
-      },
-      "config": "app.json"
-    },
-    "development": {
-      "extends": "base",
-      "developmentClient": true,
-      "distribution": "internal",
-      "android": {
-        "buildType": "apk"
-      }
-    },
-    "preview": {
-      "extends": "base",
-      "distribution": "internal",
-      "android": {
-        "buildType": "apk"
-      },
-      "ios": {
-        "simulator": true
       }
     },
     "production": {
-      "extends": "base",
       "android": {
         "buildType": "app-bundle"
-      }
+      },
+      "node": "22.0.0"
     }
   },
   "submit": {
