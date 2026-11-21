@@ -4,7 +4,18 @@
     "appVersionSource": "local"
   },
   "build": {
+    "base": {
+      "node": "22.0.0",
+      "cache": {
+        "disabled": true
+      },
+      "environment": {
+        "NPM_CONFIG_LEGACY_PEER_DEPS": "true"
+      },
+      "config": "app.json"
+    },
     "development": {
+      "extends": "base",
       "developmentClient": true,
       "distribution": "internal",
       "android": {
@@ -12,6 +23,7 @@
       }
     },
     "preview": {
+      "extends": "base",
       "distribution": "internal",
       "android": {
         "buildType": "apk"
@@ -21,6 +33,7 @@
       }
     },
     "production": {
+      "extends": "base",
       "android": {
         "buildType": "app-bundle"
       }
