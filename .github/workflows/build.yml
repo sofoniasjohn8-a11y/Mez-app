@@ -1,19 +1,9 @@
 name: EAS Build (APK)
 
 on:
-  workflow_dispatch:
-    inputs:
-      profile:
-        description: Build profile
-        required: true
-        default: preview
-        type: choice
-        options:
-          - preview
-          - production
   push:
-    tags:
-      - 'v*'
+    branches:
+      - main
 
 jobs:
   build:
@@ -38,4 +28,26 @@ jobs:
         run: eas whoami
 
       - name: Build APK
-        run: eas build --platform android --profile ${{ github.event.inputs.profile || 'preview' }} --non-interactive
+        run: eas build --platform android --profile preview --non-interactive --output ./mezmur-app.apk
+
+      - name: Get APK URL from EAS
+        id: build_url
+        run: |
+          URL=$(eas build:list --platform android --limit 1 --json --non-interactive | python3 -c "import sys,json; builds=json.load(sys.stdin); print(builds[0].get('artifacts',{}).get('buildUrl',''))")
+          echo "apk_url=$URL" >> $GITHUB_OUTPUT
+          echo "APK URL: $URL"
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: build-${{ github.run_number }}
+          name: "Build #${{ github.run_number }}"
+          body: |
+            Automated build from commit ${{ github.sha }}
+            
+            APK download: ${{ steps.build_url.outputs.apk_url }}
+          files: "*.apk"
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
