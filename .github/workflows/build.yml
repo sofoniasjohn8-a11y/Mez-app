@@ -1,6 +1,5 @@
 name: EAS Build (APK)
 
-# Triggers when you push a version tag: git tag v1.0 && git push origin v1.0
 on:
   push:
     tags:
@@ -12,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
-      NPM_CONFIG_LEGACY_PEER_DEPS: "true"
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -28,16 +27,32 @@ jobs:
       - name: Verify Expo login
         run: eas whoami
 
-      - name: Build APK on EAS servers
-        run: eas build --platform android --profile preview --non-interactive
+      - name: Generate package-lock.json
+        run: npm install --legacy-peer-deps --package-lock-only
 
-      - name: Get APK download URL
+      - name: Commit lockfile so EAS can use it
+        run: |
+          git config user.email "actions@github.com"
+          git config user.name "GitHub Actions"
+          git add package-lock.json
+          git diff --staged --quiet || git commit -m "ci: add package-lock.json for EAS Build"
+
+      - name: Build APK
+        run: eas build --platform android --profile preview --non-interactive
+        env:
+          NPM_CONFIG_LEGACY_PEER_DEPS: "true"
+
+      - name: Wait for build and get APK URL
         id: apk
         run: |
+          echo "Waiting for build to complete..."
+          sleep 60
           URL=$(eas build:list --platform android --limit 1 --json --non-interactive | python3 -c "
           import sys, json
           builds = json.load(sys.stdin)
-          print(builds[0].get('artifacts', {}).get('buildUrl', 'not ready yet'))
+          b = builds[0]
+          url = b.get('artifacts', {}).get('buildUrl', '')
+          print(url if url else 'https://expo.dev/accounts/ictus-3/projects/mez-app/builds')
           ")
           echo "url=$URL" >> $GITHUB_OUTPUT
           echo "APK URL: $URL"
@@ -51,13 +66,12 @@ jobs:
             ## ቤተ-ዕንዚራ ${{ github.ref_name }}
 
             ### APK ማውረጃ
-            👉 [APK ያውርዱ](${{ steps.apk.outputs.url }})
+            👉 [Expo Build Page](https://expo.dev/accounts/ictus-3/projects/mez-app/builds)
 
-            ### ምን አዲስ ነው
-            - ይህን ስሪት ያዘጋጁ
+            APK Direct Link: ${{ steps.apk.outputs.url }}
 
             ---
-            Built from commit ${{ github.sha }}
+            Commit: ${{ github.sha }}
           draft: false
           prerelease: false
         env:
