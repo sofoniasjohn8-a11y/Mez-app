@@ -18,7 +18,6 @@
         "backgroundImage": "./assets/android-icon-background.png",
         "monochromeImage": "./assets/android-icon-monochrome.png"
       },
-      "predictiveBackGestureEnabled": false,
       "package": "com.sofoniasjohn8.mezapp",
       "permissions": [
         "android.permission.RECORD_AUDIO",
@@ -32,15 +31,8 @@
     },
     "plugins": [
       "expo-font",
-      "expo-audio",
-      "expo-updates"
+      "expo-audio"
     ],
-    "updates": {
-      "url": "https://u.expo.dev/e9c883a5-cc12-4c9b-b8d5-36aac1c842d9"
-    },
-    "runtimeVersion": {
-      "policy": "appVersion"
-    },
     "extra": {
       "eas": {
         "projectId": "e9c883a5-cc12-4c9b-b8d5-36aac1c842d9"
