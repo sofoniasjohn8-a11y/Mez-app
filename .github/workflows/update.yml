@@ -1,6 +1,5 @@
 name: EAS Update (OTA)
 
-# Runs every time you push to main
 on:
   push:
     branches:
@@ -23,12 +22,10 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Setup EAS
-        uses: expo/expo-github-action@v8
-        with:
-          eas-version: latest
-          token: ${{ secrets.EXPO_TOKEN }}
+      - name: Install EAS CLI
+        run: npm install -g eas-cli
 
       - name: Publish EAS Update
         run: eas update --auto --branch main --non-interactive
-        working-directory: .
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
