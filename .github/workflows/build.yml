@@ -1,9 +1,10 @@
 name: EAS Build (APK)
 
+# Triggers when you push a version tag: git tag v1.0 && git push origin v1.0
 on:
   push:
-    branches:
-      - main
+    tags:
+      - 'v*'
 
 jobs:
   build:
@@ -27,26 +28,36 @@ jobs:
       - name: Verify Expo login
         run: eas whoami
 
-      - name: Build APK
-        run: eas build --platform android --profile preview --non-interactive --output ./mezmur-app.apk
+      - name: Build APK on EAS servers
+        run: eas build --platform android --profile preview --non-interactive
 
-      - name: Get APK URL from EAS
-        id: build_url
+      - name: Get APK download URL
+        id: apk
         run: |
-          URL=$(eas build:list --platform android --limit 1 --json --non-interactive | python3 -c "import sys,json; builds=json.load(sys.stdin); print(builds[0].get('artifacts',{}).get('buildUrl',''))")
-          echo "apk_url=$URL" >> $GITHUB_OUTPUT
+          URL=$(eas build:list --platform android --limit 1 --json --non-interactive | python3 -c "
+          import sys, json
+          builds = json.load(sys.stdin)
+          print(builds[0].get('artifacts', {}).get('buildUrl', 'not ready yet'))
+          ")
+          echo "url=$URL" >> $GITHUB_OUTPUT
           echo "APK URL: $URL"
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: build-${{ github.run_number }}
-          name: "Build #${{ github.run_number }}"
+          tag_name: ${{ github.ref_name }}
+          name: "Release ${{ github.ref_name }}"
           body: |
-            Automated build from commit ${{ github.sha }}
-            
-            APK download: ${{ steps.build_url.outputs.apk_url }}
-          files: "*.apk"
+            ## ቤተ-ዕንዚራ ${{ github.ref_name }}
+
+            ### APK ማውረጃ
+            👉 [APK ያውርዱ](${{ steps.apk.outputs.url }})
+
+            ### ምን አዲስ ነው
+            - ይህን ስሪት ያዘጋጁ
+
+            ---
+            Built from commit ${{ github.sha }}
           draft: false
           prerelease: false
         env:
