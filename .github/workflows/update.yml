@@ -22,7 +22,7 @@ jobs:
           cache: npm
 
       - name: Install dependencies
-        run: npm install
+        run: npm install --legacy-peer-deps
 
       - name: Install EAS CLI
         run: npm install -g eas-cli
@@ -31,4 +31,9 @@ jobs:
         run: eas whoami
 
       - name: Publish EAS Update
-        run: eas update --auto --branch main --non-interactive
+        run: |
+          eas update \
+            --branch main \
+            --message "Update from commit ${{ github.sha }}" \
+            --non-interactive \
+            --platform android
