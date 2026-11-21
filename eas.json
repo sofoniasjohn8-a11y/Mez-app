@@ -22,7 +22,10 @@
       "android": {
         "buildType": "app-bundle"
       },
-      "node": "22.0.0"
+      "node": "22.0.0",
+      "env": {
+        "NPM_CONFIG_LEGACY_PEER_DEPS": "true"
+      }
     }
   },
   "submit": {
