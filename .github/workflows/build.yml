@@ -30,23 +30,13 @@ jobs:
       - name: Generate package-lock.json
         run: npm install --legacy-peer-deps --package-lock-only
 
-      - name: Commit lockfile so EAS can use it
-        run: |
-          git config user.email "actions@github.com"
-          git config user.name "GitHub Actions"
-          git add package-lock.json
-          git diff --staged --quiet || git commit -m "ci: add package-lock.json for EAS Build"
-
       - name: Build APK
         run: eas build --platform android --profile preview --non-interactive
-        env:
-          NPM_CONFIG_LEGACY_PEER_DEPS: "true"
 
-      - name: Wait for build and get APK URL
+      - name: Get APK URL
         id: apk
         run: |
-          echo "Waiting for build to complete..."
-          sleep 60
+          sleep 30
           URL=$(eas build:list --platform android --limit 1 --json --non-interactive | python3 -c "
           import sys, json
           builds = json.load(sys.stdin)
@@ -66,9 +56,9 @@ jobs:
             ## ቤተ-ዕንዚራ ${{ github.ref_name }}
 
             ### APK ማውረጃ
-            👉 [Expo Build Page](https://expo.dev/accounts/ictus-3/projects/mez-app/builds)
+            👉 [APK ያውርዱ](${{ steps.apk.outputs.url }})
 
-            APK Direct Link: ${{ steps.apk.outputs.url }}
+            ለተጨማሪ: https://expo.dev/accounts/ictus-3/projects/mez-app/builds
 
             ---
             Commit: ${{ github.sha }}
