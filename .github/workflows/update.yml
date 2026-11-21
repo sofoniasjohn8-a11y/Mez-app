@@ -9,6 +9,8 @@ jobs:
   update:
     name: Publish OTA update
     runs-on: ubuntu-latest
+    env:
+      EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -16,7 +18,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: npm
 
       - name: Install dependencies
@@ -25,7 +27,8 @@ jobs:
       - name: Install EAS CLI
         run: npm install -g eas-cli
 
+      - name: Verify Expo login
+        run: eas whoami
+
       - name: Publish EAS Update
         run: eas update --auto --branch main --non-interactive
-        env:
-          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}

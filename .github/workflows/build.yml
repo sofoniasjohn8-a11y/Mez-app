@@ -19,6 +19,8 @@ jobs:
   build:
     name: Build APK on EAS
     runs-on: ubuntu-latest
+    env:
+      EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -26,7 +28,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: npm
 
       - name: Install dependencies
@@ -35,7 +37,8 @@ jobs:
       - name: Install EAS CLI
         run: npm install -g eas-cli
 
+      - name: Verify Expo login
+        run: eas whoami
+
       - name: Build APK
         run: eas build --platform android --profile ${{ github.event.inputs.profile || 'preview' }} --non-interactive
-        env:
-          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
