@@ -21,16 +21,8 @@ jobs:
         with:
           node-version: 22
 
-      - name: Generate package-lock.json
-        run: npm install --legacy-peer-deps --package-lock-only
-
-      - name: Commit package-lock.json
-        run: |
-          git config user.email "actions@github.com"
-          git config user.name "GitHub Actions"
-          git add -f package-lock.json
-          git diff --staged --quiet || git commit -m "ci: add package-lock.json for EAS Build [skip ci]"
-          git push || true
+      - name: Install dependencies
+        run: npm install --legacy-peer-deps
 
       - name: Install EAS CLI
         run: npm install -g eas-cli
@@ -51,7 +43,7 @@ jobs:
           url = b.get('artifacts', {}).get('buildUrl', '')
           print(url if url else 'https://expo.dev/accounts/ictus-3/projects/mez-app/builds')
           " 2>/dev/null || echo "https://expo.dev/accounts/ictus-3/projects/mez-app/builds")
-          
+
           curl -s -X POST \
             -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
             -H "Content-Type: application/json" \
