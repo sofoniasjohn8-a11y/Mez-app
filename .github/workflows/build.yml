@@ -21,6 +21,17 @@ jobs:
         with:
           node-version: 22
 
+      - name: Generate package-lock.json
+        run: npm install --legacy-peer-deps --package-lock-only
+
+      - name: Commit package-lock.json
+        run: |
+          git config user.email "actions@github.com"
+          git config user.name "GitHub Actions"
+          git add -f package-lock.json
+          git diff --staged --quiet || git commit -m "ci: add package-lock.json for EAS Build [skip ci]"
+          git push || true
+
       - name: Install EAS CLI
         run: npm install -g eas-cli
 
@@ -41,7 +52,6 @@ jobs:
           print(url if url else 'https://expo.dev/accounts/ictus-3/projects/mez-app/builds')
           " 2>/dev/null || echo "https://expo.dev/accounts/ictus-3/projects/mez-app/builds")
           
-          # Create release using GitHub API
           curl -s -X POST \
             -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
             -H "Content-Type: application/json" \
@@ -49,7 +59,7 @@ jobs:
             -d "{
               \"tag_name\": \"${{ github.ref_name }}\",
               \"name\": \"Release ${{ github.ref_name }}\",
-              \"body\": \"## ቤተ-ዕንዚራ ${{ github.ref_name }}\n\n### APK ማውረጃ\n👉 [Expo Builds](https://expo.dev/accounts/ictus-3/projects/mez-app/builds)\n\nAPK: $URL\n\nCommit: ${{ github.sha }}\",
+              \"body\": \"## ቤተ-ዕንዚራ ${{ github.ref_name }}\n\n### APK ማውረጃ\n\n👉 [Expo Builds page](https://expo.dev/accounts/ictus-3/projects/mez-app/builds)\n\nAPK Direct: $URL\n\nCommit: ${{ github.sha }}\",
               \"draft\": false,
               \"prerelease\": false
             }"
