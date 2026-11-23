@@ -12,7 +12,76 @@ import * as FileSystem from 'expo-file-system/legacy';
 // Add a line here each time you upload a new audio file to Google Drive.
 // Format: mezmurId: 'https://drive.usercontent.google.com/download?id=FILE_ID&export=download'
 const AUDIO_MAP: Record<number, string> = {
-  16: 'https://drive.usercontent.google.com/download?id=1CbVKxPwliK7WcOaiDnOIIs4irDYbrQKd&export=download',
+  // አባታችን — መጋቤ ስብሐት ዓለሙ አጋ
+  16: 'https://drive.usercontent.google.com/download?id=1imJzUkLxxgMjFmsteQ0k3EJ9IIFo6tJT&export=download',
+  // እስመ አንተ — መጋቤ ስብሐት ዓለሙ አጋ
+  17: 'https://drive.usercontent.google.com/download?id=1LT1Cp_CMPP6IpVixqJ2MztiHx81IjHpq&export=download',
+  // ሰላም ለኪ ቁ ፩ — መጋቤ ስብሐት ዓለሙ አጋ
+  18: 'https://drive.usercontent.google.com/download?id=1Vodnc6LxxJXMXQKRxZ1xyONCbusFfNRi&export=download',
+  // ሰላም ለኪ ቁ ፪ — መጋቤ ስብሐት ዓለሙ አጋ
+  19: 'https://drive.usercontent.google.com/download?id=1mYzkCa13goU47_AsLXCtLt9jr9dcGlpz&export=download',
+  // ይበላሃላ ቁ ፩ — መጋቤ ስብሐት ዓለሙ አጋ
+  20: 'https://drive.usercontent.google.com/download?id=1ofrvZHRbk9cvaosxjao1Yn1D8bKLqu9l&export=download',
+  // ይበላሃላ ቁ ፪ — መጋቤ ስብሐት ዓለሙ አጋ
+  21: 'https://drive.usercontent.google.com/download?id=1e3IMkVnxLCRwmS1e5VC4rGapFcRGrykf&export=download',
+  // አባ ግራኝ ሞተ ቁ ፩ — መጋቤ ስብሐት ዓለሙ አጋ
+  22: 'https://drive.usercontent.google.com/download?id=1XVGln-ljpUqEgxSsd1AhVySaauB0NJpT&export=download',
+  // አባ ግራኝ ሞተ ቁ ፫ — መጋቤ ስብሐት ዓለሙ አጋ
+  24: 'https://drive.usercontent.google.com/download?id=10QDQkOzcYNrv-WzOMy_Kz-kzSH7LER4H&export=download',
+  // ማን ይመራመር ቁ ፩ — መጋቤ ስብሐት ዓለሙ አጋ
+  25: 'https://drive.usercontent.google.com/download?id=1Ez44pooe1IEskaJOOPiwjNE9oU471Kv3&export=download',
+  // ማን ይመራመር ቁ ፪ — መጋቤ ስብሐት ዓለሙ አጋ
+  26: 'https://drive.usercontent.google.com/download?id=17lwcc-c8LvfsHolwH8QVBH_MvXx6Km1h&export=download',
+  // የበገና አካላት — መጋቤ ስብሐት ዓለሙ አጋ
+  27: 'https://drive.usercontent.google.com/download?id=12qLQViqG02gz2bQoe_gd6FRpD3f6c5p9&export=download',
+  // እራሴን አሞኝ — መጋቤ ስብሐት ዓለሙ አጋ
+  29: 'https://drive.usercontent.google.com/download?id=1m5djilRgLnQV2QPdy9RQNahp68rHCt3m&export=download',
+  // ዓለም ማረፊያ ናት — መጋቤ ስብሐት ዓለሙ አጋ
+  30: 'https://drive.usercontent.google.com/download?id=1Qb5j_BqtiN7rEXOjSN8y09G16h7gozmP&export=download',
+  // አላየንም በሉ — መጋቤ ስብሐት ዓለሙ አጋ
+  31: 'https://drive.usercontent.google.com/download?id=1keVjE4S-Tn15jE0dYlEnrDZ3fE1vFo2q&export=download',
+  // ወንድሜ ጠፍቶ — መጋቤ ስብሐት ዓለሙ አጋ
+  32: 'https://drive.usercontent.google.com/download?id=1f-xs4vQwbQOGCJ92IkXW9UU5obf3j9x0&export=download',
+  // ርግብና ዋኔን ቁ ፩ — ዘማሪ ታፈሰ ተስፋዬ
+  58: 'https://drive.usercontent.google.com/download?id=14cVBF5-2y8BifcgNgL75_cwcl3Gicn4X&export=download',
+  // ወዳጄ ወዳጄ ቁ ፩ — ዘማሪ ታፈሰ ተስፋዬ
+  61: 'https://drive.usercontent.google.com/download?id=1fi4M5sTSMkbk1tuRcJe0pYoPLlPFATF_&export=download',
+  // እስመ አንተ — ዘማሪ ታፈሰ ተስፋዬ
+  64: 'https://drive.usercontent.google.com/download?id=1EDj62LtwOWJ4S07RaguKWqc3ZBRwktVJ&export=download',
+  // ገብረ መንፈስ ቅዱስ — ዘማሪ ታፈሰ ተስፋዬ
+  65: 'https://drive.usercontent.google.com/download?id=1Yyqz-TUegEtnKNjnVJkF3KjTZgqFrZ53&export=download',
+  // አየሁኝ በሕልሜ — ዘማሪ ታፈሰ ተስፋዬ
+  67: 'https://drive.usercontent.google.com/download?id=1endxxvjhrXMYQFmr1TqDWjMylWgLw1Ic&export=download',
+  // ስለ ሥነ ፍጥረት — ዘማሪ ታፈሰ ተስፋዬ
+  69: 'https://drive.usercontent.google.com/download?id=1C4nscBbGQSkub0MQzMzsRwb3pj_y5H61&export=download',
+  // ስለ ልደት — ዘማሪ ታፈሰ ተስፋዬ
+  70: 'https://drive.usercontent.google.com/download?id=151STO8zbx7a_DPvhukri5e4QFDTOn0QD&export=download',
+  // ስለ ጥምቀት — ዘማሪ ታፈሰ ተስፋዬ
+  71: 'https://drive.usercontent.google.com/download?id=1TUAaIMqDLebdmzQWzeXOiJptJ-BXAyDD&export=download',
+  // ስለ ስቅለት — ዘማሪ ታፈሰ ተስፋዬ
+  72: 'https://drive.usercontent.google.com/download?id=1KSRUrjldIz6F-j4-Im2fF16J10WPXG5N&export=download',
+  // ከደጇ ይፈልቃል — ዘማሪ ታፈሰ ተስፋዬ
+  74: 'https://drive.usercontent.google.com/download?id=1Vs5I0lf7LtrHb0YT0Tg1Bw7UkCSVoJ9C&export=download',
+  // የብርሃን እናት — ሊቀ መዘምር ይልማ ኃይሉ
+  145: 'https://drive.usercontent.google.com/download?id=12URlTYAYJ5T4xgNnUBQAXrIE5FEw38rT&export=download',
+  // አቤቱ ደግ ሰው — ሊቀ መዘምር ይልማ ኃይሉ
+  150: 'https://drive.usercontent.google.com/download?id=1peA8ajYAHspGcZUUAI02GsBA37uLFL0W&export=download',
+  // ሰላም ለማርያም — ዘማሪት ሶስና ገ/ኢየሱስ
+  170: 'https://drive.usercontent.google.com/download?id=18ak9xZgp_Y5BNwp4zCVZ2Kdb5LSloVzo&export=download',
+  // ድንግል ስልሽ — ዘማሪት ሶስና ገ/ኢየሱስ
+  172: 'https://drive.usercontent.google.com/download?id=15C0yqAmbMi49ygobue0oybanz_Zn7SmW&export=download',
+  // ስቀለው ስቀለው — ዘማሪት ሶስና ገ/ኢየሱስ
+  173: 'https://drive.usercontent.google.com/download?id=1gzF5PbG3z4WQ0ZGsrM2dWvhs9SZTJxzV&export=download',
+  // ዐሥር አውታር ባለው — ዘማሪት ሶስና ገ/ኢየሱስ
+  174: 'https://drive.usercontent.google.com/download?id=1uhu1biKizxO1PMOIZs-3E0GpovqLTSyD&export=download',
+  // ስምሽ ጉልበት ሆኖኝ — ዘማሪ ዲ/ን አቤል ተስፋዬ
+  190: 'https://drive.usercontent.google.com/download?id=1HuIbKYb2DR6CYYgCwOBGwyUAPTaRwgPA&export=download',
+  // መች ይረሳል — ዘማሪ ዲ/ን አቤል ተስፋዬ
+  192: 'https://drive.usercontent.google.com/download?id=16q6pcPBxQTFCEAqxX4EadzqAI1MGkfhO&export=download',
+  // ሰላምህ ይብዛላት — ዘማሪ ዲ/ን አቤል ተስፋዬ
+  195: 'https://drive.usercontent.google.com/download?id=17x-EpZnMdFJKYlbQ44gbbOma2idOvcvR&export=download',
+  // ጥሩልኝ ዳዊትን — ዘማሪ ዲ/ን አቤል ተስፋዬ
+  199: 'https://drive.usercontent.google.com/download?id=1OhF_PwUldYh2po7L4EFM2PZ7jl4aoQp6&export=download',
 };
 
 export function hasAudio(id: number): boolean {
@@ -148,3 +217,4 @@ export function useAudio(mezmurId: number) {
     seekTo,
   };
 }
+  
