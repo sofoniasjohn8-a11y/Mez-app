@@ -28,7 +28,7 @@ jobs:
         run: |
           mkdir -p node_modules/@babel/helper-compilation-targets/node_modules/lru-cache
           npm pack lru-cache@5.1.1 --pack-destination /tmp/
-          tar -xzf /tmp/lru-cache-5.1.1.tgz -C node_modules/@babel/helper-compilation-targets/node_modules/lru-cache/ --strip-components=1
+          tar -xzf /tmp/lru-cache-5.1.1.tgz --strip-components=1 -C node_modules/@babel/helper-compilation-targets/node_modules/lru-cache/
 
       - name: Install EAS CLI
         run: npm install -g eas-cli
