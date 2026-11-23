@@ -1,9 +1,8 @@
 name: EAS Update (OTA)
 
+# Disabled for now - enable after first APK is installed
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
 
 jobs:
   update:
@@ -28,9 +27,6 @@ jobs:
 
       - name: Verify Expo login
         run: eas whoami
-
-      - name: Test expo config
-        run: node node_modules/expo/bin/cli config --json --type public 2>&1 || true
 
       - name: Publish EAS Update
         run: |
