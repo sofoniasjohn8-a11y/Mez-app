@@ -24,12 +24,6 @@ jobs:
       - name: Install dependencies
         run: npm install --legacy-peer-deps
 
-      - name: Fix lru-cache version conflict for Babel
-        run: |
-          cd node_modules/@babel/helper-compilation-targets
-          npm install lru-cache@5.1.1 --no-save
-          cd ../../..
-
       - name: Install EAS CLI
         run: npm install -g eas-cli
 
