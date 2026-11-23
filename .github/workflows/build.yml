@@ -5,6 +5,9 @@ on:
     tags:
       - 'v*'
 
+permissions:
+  contents: write
+
 jobs:
   build:
     name: Trigger EAS Build via API
@@ -19,7 +22,6 @@ jobs:
       - name: Trigger EAS Build via REST API
         id: trigger
         run: |
-          # Trigger build directly via EAS GraphQL API - no local expo CLI needed
           RESPONSE=$(curl -s -X POST \
             -H "Authorization: Bearer $EXPO_TOKEN" \
             -H "Content-Type: application/json" \
@@ -33,10 +35,10 @@ jobs:
               }
             }')
           echo "API Response: $RESPONSE"
-          BUILD_ID=$(echo $RESPONSE | python3 -c "import sys,json; d=json.load(sys.stdin); print(d.get('data',{}).get('build',{}).get('id',''))" 2>/dev/null || echo "")
+          BUILD_ID=$(echo $RESPONSE | python3 -c "import sys,json; d=json.load(sys.stdin); print(d.get('data',{}).get('build',{}).get('id','error'))" 2>/dev/null || echo "check-expo-dev")
           echo "build_id=$BUILD_ID" >> $GITHUB_OUTPUT
-          echo "Build ID: $BUILD_ID"
-          echo "Check: https://expo.dev/accounts/ictus-3/projects/mez-app/builds"
+          echo "Build triggered! ID: $BUILD_ID"
+          echo "Track at: https://expo.dev/accounts/ictus-3/projects/mez-app/builds"
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
@@ -47,10 +49,9 @@ jobs:
             ## ቤተ-ዕንዚራ ${{ github.ref_name }}
 
             ### APK ማውረጃ
-            👉 [Expo Builds page](https://expo.dev/accounts/ictus-3/projects/mez-app/builds)
+            👉 [Expo Builds](https://expo.dev/accounts/ictus-3/projects/mez-app/builds)
 
             Build ID: ${{ steps.trigger.outputs.build_id }}
-
             Commit: ${{ github.sha }}
           draft: false
           prerelease: false
