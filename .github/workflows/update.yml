@@ -1,8 +1,9 @@
 name: EAS Update (OTA)
 
-# Disabled for now - enable after first APK is installed
 on:
-  workflow_dispatch:
+  push:
+    branches:
+      - main
 
 jobs:
   update:
@@ -10,6 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -18,9 +20,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22
-
-      - name: Install dependencies
-        run: npm install --legacy-peer-deps
 
       - name: Install EAS CLI
         run: npm install -g eas-cli
