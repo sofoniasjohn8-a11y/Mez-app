@@ -29,6 +29,9 @@ jobs:
       - name: Verify Expo login
         run: eas whoami
 
+      - name: Test expo config
+        run: node node_modules/expo/bin/cli config --json --type public 2>&1 || true
+
       - name: Publish EAS Update
         run: |
           eas update \
